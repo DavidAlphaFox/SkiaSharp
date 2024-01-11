@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -29,6 +29,30 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="d3dcompiler_47.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libEGL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libGLESv1_CM.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libGLESv2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.pdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Reference Include="SkiaSharp.Views.WinUI.Native.Projection">
+      <HintPath>..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.Projection.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Import Project="..\..\..\..\binding\IncludeNativeAssets.SkiaSharp.targets" />

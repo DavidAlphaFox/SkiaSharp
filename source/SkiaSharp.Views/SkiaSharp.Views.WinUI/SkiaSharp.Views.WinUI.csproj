@@ -14,13 +14,17 @@
     <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\binding\SkiaSharp\SkiaSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SkiaSharp.Views.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="SkiaSharp.Views.WinUI.Native.Projection">
+      <HintPath>..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.Projection.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
