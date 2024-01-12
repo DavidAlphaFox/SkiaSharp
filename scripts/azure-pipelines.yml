@@ -37,6 +37,9 @@ parameters:
       pool:
         name: Azure Pipelines
         vmImage: ubuntu-20.04
+  - name: runCompliance
+    type: boolean
+    default: false
 
 variables:
   - template: azure-pipelines-variables.yml
@@ -47,13 +50,14 @@ resources:
       type: github
       name: xamarin/yaml-templates
       endpoint: xamarin
-      ref: refs/heads/main
+      ref: refs/heads/mattleibow-patch-1
 
 stages:
   - template: azure-templates-stages.yml
     parameters:
       buildPipelineType: 'build'
       buildExternals: ${{ parameters.buildExternals }}
+      runCompliance: ${{ parameters.runCompliance }}
       VM_IMAGE_HOST: ${{ parameters.VM_IMAGE_HOST }}
       VM_IMAGE_WINDOWS: ${{ parameters.VM_IMAGE_WINDOWS }}
       VM_IMAGE_WINDOWS_NATIVE: ${{ parameters.VM_IMAGE_WINDOWS }}

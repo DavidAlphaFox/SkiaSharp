@@ -37,7 +37,7 @@ resources:
       type: github
       name: xamarin/yaml-templates
       endpoint: xamarin
-      ref: refs/heads/main
+      ref: refs/heads/mattleibow-patch-1
   pipelines:
     - pipeline: SkiaSharp
       source: SkiaSharp

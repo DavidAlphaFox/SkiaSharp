@@ -940,6 +940,7 @@ stages:
         apiScanEnabled: true
         apiScanSoftwareName: 'SkiaSharp'
         apiScanSoftwareVersionNum: $(Build.BuildNumber)
+        apiScanPreserveLogsFolder: true
 
   - ${{ if eq(parameters.buildPipelineType, 'tests') }}:
     - stage: finalize
