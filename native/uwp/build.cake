@@ -42,7 +42,7 @@ Task("libSkiaSharp")
             $"extra_cflags=[  " +
             $"  '-DSKIA_C_DLL', '/MD{d}', '/EHsc', '/Z7', " +
             $"  '-DSK_HAS_DWRITE_1_H', '-DSK_HAS_DWRITE_2_H', '-DNO_GETENV', '-D_HAS_AUTO_PTR_ETC=1' ] " +
-            $"extra_ldflags=[ '/DEBUG:FULL' ]");
+            $"extra_ldflags=[ '/DEBUG:FULL', '/DEBUGTYPE:CV,FIXUP' ]");
 
         var outDir = OUTPUT_PATH.Combine(dir);
         EnsureDirectoryExists(outDir);

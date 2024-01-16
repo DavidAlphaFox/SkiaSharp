@@ -50,7 +50,7 @@ resources:
       type: github
       name: xamarin/yaml-templates
       endpoint: xamarin
-      ref: refs/heads/mattleibow-patch-1
+      ref: refs/heads/main
 
 stages:
   - template: azure-templates-stages.yml
