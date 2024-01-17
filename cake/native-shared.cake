@@ -75,7 +75,7 @@ void GnNinja(DirectoryPath outDir, string target, string skiaArgs)
 
     // build native skia
     RunProcess(NINJA_EXE, new ProcessSettings {
-        Arguments = $"-C out/{outDir} {target}",
+        Arguments = $"-v -C out/{outDir} {target}",
         WorkingDirectory = SKIA_PATH.FullPath,
     });
 }
