@@ -136,6 +136,7 @@ Task("ANGLE")
                 System.IO.File.AppendAllLines(cmake.FullPath, new [] {
                     $"set(VCPKG_PLATFORM_TOOLSET \"{platform_toolset}\")",
                     $"set(VCPKG_DEP_INFO_OVERRIDE_VARS \"{platform_toolset}\")",
+                    $"set(VCPKG_LINKER_FLAGS \"/DEBUG:FULL /DEBUGTYPE:CV,FIXUP\")",
                 });
             }
         }
