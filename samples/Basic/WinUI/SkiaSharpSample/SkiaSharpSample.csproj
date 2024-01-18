@@ -32,16 +32,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="d3dcompiler_47.dll">
+    <Content Include="C:\Projects\angle\out\Rel\libEGL.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="libEGL.dll">
+    <Content Include="C:\Projects\angle\out\Rel\libGLESv2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="libGLESv1_CM.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="libGLESv2.dll">
+    <Content Include="C:\Projects\angle\out\Rel\zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.dll">

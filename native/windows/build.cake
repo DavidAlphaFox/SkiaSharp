@@ -1,5 +1,6 @@
 DirectoryPath ROOT_PATH = MakeAbsolute(Directory("../.."));
 DirectoryPath OUTPUT_PATH = MakeAbsolute(ROOT_PATH.Combine("output/native"));
+DirectoryPath VCPKG_PATH = EnvironmentVariable("VCPKG_ROOT") ?? MakeAbsolute(ROOT_PATH.Combine("externals/vcpkg"));
 
 DirectoryPath LLVM_HOME = Argument("llvm", EnvironmentVariable("LLVM_HOME") ?? "C:/Program Files/LLVM");
 string VC_TOOLSET_VERSION = Argument("vcToolsetVersion", "14.2");
@@ -85,8 +86,48 @@ Task("libHarfBuzzSharp")
     }
 });
 
+Task("ANGLE")
+    .WithCriteria(IsRunningOnWindows())
+    .Does(() =>
+{
+    if (!DirectoryExists(VCPKG_PATH))
+        RunProcess("git", $"clone https://github.com/microsoft/vcpkg.git --branch master {VCPKG_PATH}");
+        // RunProcess("git", $"clone --depth 1 https://github.com/microsoft/vcpkg.git --branch master --single-branch {VCPKG_PATH}");
+
+    var vcpkg = VCPKG_PATH.CombineWithFilePath("vcpkg.exe");
+    if (!FileExists(vcpkg))
+        RunProcess(VCPKG_PATH.CombineWithFilePath("bootstrap-vcpkg.bat"));
+
+    Build("x86");
+    Build("x64");
+    Build("arm");
+    Build("arm64");
+
+    void Build(string arch)
+    {
+        if (Skip(arch)) return;
+
+        var triplet = $"{arch}-windows";
+
+        var d = CONFIGURATION.ToLower() == "release" ? "" : "debug/";
+        var zd = CONFIGURATION.ToLower() == "release" ? "" : "d";
+
+        RunProcess(vcpkg, $"install angle:{triplet} --editable");
+
+        var outDir = OUTPUT_PATH.Combine(arch);
+        EnsureDirectoryExists(outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libEGL.dll"), outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libEGL.pdb"), outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libGLESv2.dll"), outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libGLESv2.pdb"), outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/zlib{zd}1.dll"), outDir);
+        CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/zlib{zd}.pdb"), outDir);
+    }
+});
+
 Task("Default")
     .IsDependentOn("libSkiaSharp")
-    .IsDependentOn("libHarfBuzzSharp");
+    .IsDependentOn("libHarfBuzzSharp")
+    .IsDependentOn("ANGLE");
 
 RunTarget(TARGET);
