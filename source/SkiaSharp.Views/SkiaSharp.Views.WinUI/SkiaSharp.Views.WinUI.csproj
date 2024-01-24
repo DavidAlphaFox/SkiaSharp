@@ -20,11 +20,14 @@
     <ProjectReference Include="..\..\..\binding\SkiaSharp\SkiaSharp.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="..\..\..\output\native\winui\any\*.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="..\SkiaSharp.Views.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SkiaSharp.Views.WinUI.Native.Projection">
-      <HintPath>..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.Projection.dll</HintPath>
-    </Reference>
+    <PackageFile Include="..\..\..\output\native\winui\x64\*" PackagePath="runtimes\win-x64\native\%(Filename)%(Extension)" />
+    <PackageFile Include="..\..\..\output\native\winui\x86\*" PackagePath="runtimes\win-x86\native\%(Filename)%(Extension)" />
+    <PackageFile Include="..\..\..\output\native\winui\arm64\*" PackagePath="runtimes\win-arm64\native\%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

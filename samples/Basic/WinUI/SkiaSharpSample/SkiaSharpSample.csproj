@@ -31,27 +31,7 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="C:\Projects\angle\out\Rel\libEGL.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="C:\Projects\angle\out\Rel\libGLESv2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="C:\Projects\angle\out\Rel\zlib1.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.pdb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Reference Include="SkiaSharp.Views.WinUI.Native.Projection">
-      <HintPath>..\..\..\..\native\windows\SkiaSharp.Views.WinUI.Native\SkiaSharp.Views.WinUI.Native.Projection\bin\Debug\net7.0-windows10.0.19041.0\SkiaSharp.Views.WinUI.Native.Projection.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Import Project="..\..\..\..\binding\IncludeNativeAssets.SkiaSharp.targets" />
+  <Import Project="..\..\..\..\source\SkiaSharp.Views\SkiaSharp.Views.WinUI\nuget\buildTransitive\windows\SkiaSharp.Views.WinUI.Local.targets" />
 
 </Project>

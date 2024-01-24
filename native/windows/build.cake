@@ -86,13 +86,40 @@ Task("libHarfBuzzSharp")
     }
 });
 
-Task("ANGLE")
+Task("SkiaSharp.Views.WinUI.Native")
+    .WithCriteria(IsRunningOnWindows())
+    .Does(() =>
+{
+    Build("x86", "Win32");
+    Build("x64", "x64");
+    Build("arm64", "arm64");
+
+    void Build(string arch, string nativeArch)
+    {
+        if (Skip(arch)) return;
+
+        RunMSBuild("SkiaSharp.Views.WinUI.Native/SkiaSharp.Views.WinUI.Native.sln", arch);
+
+        var name = "SkiaSharp.Views.WinUI.Native";
+
+        var outDir = OUTPUT_PATH.Combine($"winui/{arch}");
+        EnsureDirectoryExists(outDir);
+        CopyFileToDirectory($"{name}/{name}/bin/{nativeArch}/{CONFIGURATION}/{name}.dll", outDir);
+        CopyFileToDirectory($"{name}/{name}/bin/{nativeArch}/{CONFIGURATION}/{name}.pdb", outDir);
+        CopyFileToDirectory($"{name}/{name}/bin/{nativeArch}/{CONFIGURATION}/{name}.winmd", outDir);
+        var anyOutDir = OUTPUT_PATH.Combine($"winui/any");
+        EnsureDirectoryExists(anyOutDir);
+        CopyFileToDirectory($"{name}/{name}.Projection/bin/{CONFIGURATION}/net7.0-windows10.0.19041.0/{name}.Projection.dll", anyOutDir);
+        CopyFileToDirectory($"{name}/{name}.Projection/bin/{CONFIGURATION}/net7.0-windows10.0.19041.0/{name}.Projection.pdb", anyOutDir);
+    }
+});
+
+Task("ANGLE.WinUI")
     .WithCriteria(IsRunningOnWindows())
     .Does(() =>
 {
     if (!DirectoryExists(VCPKG_PATH))
-        RunProcess("git", $"clone https://github.com/microsoft/vcpkg.git --branch master {VCPKG_PATH}");
-        // RunProcess("git", $"clone --depth 1 https://github.com/microsoft/vcpkg.git --branch master --single-branch {VCPKG_PATH}");
+        RunProcess("git", $"clone --depth 1 https://github.com/mattleibow/vcpkg.git --branch dev/angle-wasdk --single-branch {VCPKG_PATH}");
 
     var vcpkg = VCPKG_PATH.CombineWithFilePath("vcpkg.exe");
     if (!FileExists(vcpkg))
@@ -100,21 +127,20 @@ Task("ANGLE")
 
     Build("x86");
     Build("x64");
-    Build("arm");
     Build("arm64");
 
     void Build(string arch)
     {
         if (Skip(arch)) return;
 
-        var triplet = $"{arch}-windows";
+        var triplet = $"{arch}-windowsappsdk";
 
         var d = CONFIGURATION.ToLower() == "release" ? "" : "debug/";
         var zd = CONFIGURATION.ToLower() == "release" ? "" : "d";
 
         RunProcess(vcpkg, $"install angle:{triplet} --editable");
 
-        var outDir = OUTPUT_PATH.Combine(arch);
+        var outDir = OUTPUT_PATH.Combine($"winui/{arch}");
         EnsureDirectoryExists(outDir);
         CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libEGL.dll"), outDir);
         CopyFileToDirectory(VCPKG_PATH.CombineWithFilePath($"installed/{triplet}/{d}bin/libEGL.pdb"), outDir);
@@ -125,9 +151,15 @@ Task("ANGLE")
     }
 });
 
-Task("Default")
+var task = Task("Default")
     .IsDependentOn("libSkiaSharp")
-    .IsDependentOn("libHarfBuzzSharp")
-    .IsDependentOn("ANGLE");
+    .IsDependentOn("libHarfBuzzSharp");
+
+if (VARIANT == "windows")
+{
+    task
+        .IsDependentOn("SkiaSharp.Views.WinUI.Native")
+        .IsDependentOn("ANGLE.WinUI");
+}
 
 RunTarget(TARGET);
